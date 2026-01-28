@@ -2,7 +2,6 @@
 import { useState, useRef } from "react";
 import { ResponsiveRadar } from "@nivo/radar";
 import { toPng } from "html-to-image";
-import jsPDF from "jspdf";
 
 interface Category {
   id: string;
@@ -42,42 +41,6 @@ const WheelChart = () => {
     } catch (error) {
       console.error("Error exporting PNG:", error);
       alert("Có lỗi khi export PNG!");
-    } finally {
-      setIsExporting(false);
-    }
-  };
-
-  const handleExportPDF = async () => {
-    if (!chartRef.current) return;
-    setIsExporting(true);
-    try {
-      const dataUrl = await toPng(chartRef.current, {
-        quality: 1,
-        pixelRatio: 2,
-      });
-      const pdf = new jsPDF({
-        orientation: "landscape",
-        unit: "mm",
-        format: "a4",
-      });
-      const imgWidth = 280;
-      const imgHeight = 280;
-      const x = (297 - imgWidth) / 2;
-      const y = (210 - imgHeight) / 2;
-      pdf.addImage(dataUrl, "PNG", x, y, imgWidth, imgHeight);
-      pdf.addPage();
-      pdf.setFontSize(16);
-      pdf.text("Chi tiết các khía cạnh:", 20, 20);
-      pdf.setFontSize(12);
-      let textY = 35;
-      categories.forEach((cat) => {
-        pdf.text(`${cat.name}: ${cat.value}/100`, 25, textY);
-        textY += 10;
-      });
-      pdf.save(`wheel-of-life-${new Date().toISOString().split("T")[0]}.pdf`);
-    } catch (error) {
-      console.error("Error exporting PDF:", error);
-      alert("Có lỗi khi export PDF!");
     } finally {
       setIsExporting(false);
     }
@@ -123,43 +86,7 @@ const WheelChart = () => {
       <div className="w-full max-w-lg">
         <div ref={chartRef} className="bg-white rounded-2xl shadow-xl p-6">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-2xl font-bold text-gray-800">
-              Wheel of Life
-            </h2>
-            <div className="flex gap-2">
-              <button
-                onClick={handleExportPNG}
-                disabled={isExporting}
-                className="px-3 py-2 bg-purple-500 text-white rounded-lg font-medium hover:bg-purple-600 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 text-sm"
-              >
-                {isExporting ? (
-                  "Đang export..."
-                ) : (
-                  <>
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
-                      <path fillRule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clipRule="evenodd" />
-                    </svg>
-                    PNG
-                  </>
-                )}
-              </button>
-              <button
-                onClick={handleExportPDF}
-                disabled={isExporting}
-                className="px-3 py-2 bg-red-500 text-white rounded-lg font-medium hover:bg-red-600 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 text-sm"
-              >
-                {isExporting ? (
-                  "Đang export..."
-                ) : (
-                  <>
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
-                      <path fillRule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4z" clipRule="evenodd" />
-                    </svg>
-                    PDF
-                  </>
-                )}
-              </button>
-            </div>
+            <h2 className="text-2xl font-bold text-gray-800">Wheel of Life</h2>
           </div>
           <div className="aspect-square">
             <ResponsiveRadar
@@ -232,6 +159,31 @@ const WheelChart = () => {
               }`}
             >
               {isEditing ? "Xong" : "Chỉnh sửa"}
+            </button>
+            <button
+              onClick={handleExportPNG}
+              disabled={isExporting}
+              className="px-4 py-2 bg-purple-500 text-white rounded-lg font-medium hover:bg-purple-600 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 text-sm"
+            >
+              {isExporting ? (
+                "Đang export..."
+              ) : (
+                <>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-4 w-4"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                  PNG
+                </>
+              )}
             </button>
           </div>
 
