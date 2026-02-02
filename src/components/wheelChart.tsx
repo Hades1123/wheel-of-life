@@ -39,7 +39,7 @@ const DEFAULT_CATEGORIES: Category[] = [
     icon: "👥",
     value: 6,
     color: COLORS[2],
-    labelOffset: { x: 5, y: -25 },
+    labelOffset: { x: 0, y: 15 },
   },
   {
     id: "4",
@@ -71,7 +71,7 @@ const DEFAULT_CATEGORIES: Category[] = [
     icon: "🤝",
     value: 5,
     color: COLORS[6],
-    labelOffset: { x: 5, y: 25 },
+    labelOffset: { x: 10, y: -10 },
   },
   { id: "8", name: "Tâm linh", icon: "🧘", value: 4, color: COLORS[7] },
 ];
@@ -243,12 +243,14 @@ const WheelChart = () => {
           className="bg-white rounded-2xl shadow-xl p-8 h-full flex flex-col items-center justify-center"
         >
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-2xl font-bold text-gray-800">Wheel of Life</h2>
+            <h2 className="text-2xl font-bold text-gray-800 mr-2">
+              Wheel of Life
+            </h2>
             <div className="flex gap-2">
               <button
                 onClick={handleExportPNG}
                 disabled={isExporting}
-                className="px-3 py-2 bg-purple-500 text-white rounded-lg font-medium hover:bg-purple-600 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 text-sm"
+                className="px-3 py-2 bg-purple-500 text-white rounded-lg font-medium hover:bg-purple-600 flex items-center gap-2 text-sm hover:cursor-pointer"
               >
                 {isExporting ? "📷" : "📷 PNG"}
               </button>
