@@ -31,13 +31,48 @@ const DEFAULT_CATEGORIES: Category[] = [
     icon: "🧠",
     value: 5,
     color: COLORS[1],
-    labelOffset: { x: 10, y: -20 },
+    labelOffset: { x: 0, y: -10 },
   },
-  { id: "3", name: "Mối quan hệ", icon: "👥", value: 6, color: COLORS[2] },
-  { id: "4", name: "Tài chính", icon: "💰", value: 5, color: COLORS[3] },
-  { id: "5", name: "Sự nghiệp", icon: "💼", value: 5, color: COLORS[4] },
-  { id: "6", name: "Giải trí", icon: "🎮", value: 9, color: COLORS[5] },
-  { id: "7", name: "Chia sẻ", icon: "🤝", value: 5, color: COLORS[6] },
+  {
+    id: "3",
+    name: "Mối quan hệ",
+    icon: "👥",
+    value: 6,
+    color: COLORS[2],
+    labelOffset: { x: 5, y: -25 },
+  },
+  {
+    id: "4",
+    name: "Tài chính",
+    icon: "💰",
+    value: 5,
+    color: COLORS[3],
+    labelOffset: { x: 0, y: 5 },
+  },
+  {
+    id: "5",
+    name: "Sự nghiệp",
+    icon: "💼",
+    value: 5,
+    color: COLORS[4],
+    labelOffset: { x: 0, y: 5 },
+  },
+  {
+    id: "6",
+    name: "Giải trí",
+    icon: "🎮",
+    value: 9,
+    color: COLORS[5],
+    labelOffset: { x: 10, y: 15 },
+  },
+  {
+    id: "7",
+    name: "Chia sẻ",
+    icon: "🤝",
+    value: 5,
+    color: COLORS[6],
+    labelOffset: { x: 5, y: 25 },
+  },
   { id: "8", name: "Tâm linh", icon: "🧘", value: 4, color: COLORS[7] },
 ];
 
@@ -79,32 +114,32 @@ const WheelChart = () => {
     }
   };
 
-  const handleExportPDF = async () => {
-    if (!chartRef.current) return;
-    setIsExporting(true);
-    try {
-      const dataUrl = await toPng(chartRef.current, {
-        quality: 1,
-        pixelRatio: 2,
-      });
-      const pdf = new jsPDF({
-        orientation: "landscape",
-        unit: "mm",
-        format: "a4",
-      });
-      const imgWidth = 200;
-      const imgHeight = 200;
-      const x = (297 - imgWidth) / 2;
-      const y = (210 - imgHeight) / 2;
-      pdf.addImage(dataUrl, "PNG", x, y, imgWidth, imgHeight);
-      pdf.save(`wheel-of-life-${new Date().toISOString().split("T")[0]}.pdf`);
-    } catch (error) {
-      console.error("Error exporting PDF:", error);
-      alert("Có lỗi khi export PDF!");
-    } finally {
-      setIsExporting(false);
-    }
-  };
+  // const handleExportPDF = async () => {
+  //   if (!chartRef.current) return;
+  //   setIsExporting(true);
+  //   try {
+  //     const dataUrl = await toPng(chartRef.current, {
+  //       quality: 1,
+  //       pixelRatio: 2,
+  //     });
+  //     const pdf = new jsPDF({
+  //       orientation: "landscape",
+  //       unit: "mm",
+  //       format: "a4",
+  //     });
+  //     const imgWidth = 200;
+  //     const imgHeight = 200;
+  //     const x = (297 - imgWidth) / 2;
+  //     const y = (210 - imgHeight) / 2;
+  //     pdf.addImage(dataUrl, "PNG", x, y, imgWidth, imgHeight);
+  //     pdf.save(`wheel-of-life-${new Date().toISOString().split("T")[0]}.pdf`);
+  //   } catch (error) {
+  //     console.error("Error exporting PDF:", error);
+  //     alert("Có lỗi khi export PDF!");
+  //   } finally {
+  //     setIsExporting(false);
+  //   }
+  // };
 
   // Generate wheel segments
   const renderWheel = () => {
@@ -115,8 +150,8 @@ const WheelChart = () => {
       const startAngle = (index * 45 - 90) * (Math.PI / 180);
       const endAngle = ((index + 1) * 45 - 90) * (Math.PI / 180);
       const value = category.value / 10;
-      const innerRadius = 80;
-      const outerRadius = 170;
+      const innerRadius = 70;
+      const outerRadius = 140;
 
       // Background segment (full)
       const x1 = centerX + innerRadius * Math.cos(startAngle);
@@ -187,7 +222,7 @@ const WheelChart = () => {
             textAnchor="middle"
             dominantBaseline="middle"
             fill="#374151"
-            fontSize="11"
+            fontSize="7"
             fontWeight="500"
           >
             {category.icon} {category.name}
@@ -215,15 +250,15 @@ const WheelChart = () => {
                 disabled={isExporting}
                 className="px-3 py-2 bg-purple-500 text-white rounded-lg font-medium hover:bg-purple-600 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 text-sm"
               >
-                {isExporting ? "..." : "📷 PNG"}
+                {isExporting ? "📷" : "📷 PNG"}
               </button>
-              <button
+              {/* <button
                 onClick={handleExportPDF}
                 disabled={isExporting}
                 className="px-3 py-2 bg-red-500 text-white rounded-lg font-medium hover:bg-red-600 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 text-sm"
               >
                 {isExporting ? "..." : "📄 PDF"}
-              </button>
+              </button> */}
             </div>
           </div>
 
