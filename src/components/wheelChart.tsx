@@ -100,48 +100,51 @@ const WheelChart = () => {
 
   // Generate wheel segments
   const renderWheel = () => {
+    const centerX = 200;
+    const centerY = 200;
+
     const segments = categories.map((category, index) => {
       const startAngle = (index * 45 - 90) * (Math.PI / 180);
       const endAngle = ((index + 1) * 45 - 90) * (Math.PI / 180);
       const value = category.value / 10;
-      const innerRadius = 60;
-      const outerRadius = 140;
+      const innerRadius = 80;
+      const outerRadius = 170;
 
       // Background segment (full)
-      const x1 = 150 + innerRadius * Math.cos(startAngle);
-      const y1 = 150 + innerRadius * Math.sin(startAngle);
-      const x2 = 150 + outerRadius * Math.cos(startAngle);
-      const y2 = 150 + outerRadius * Math.sin(startAngle);
-      const x3 = 150 + outerRadius * Math.cos(endAngle);
-      const y3 = 150 + outerRadius * Math.sin(endAngle);
-      const x4 = 150 + innerRadius * Math.cos(endAngle);
-      const y4 = 150 + innerRadius * Math.sin(endAngle);
+      const x1 = centerX + innerRadius * Math.cos(startAngle);
+      const y1 = centerY + innerRadius * Math.sin(startAngle);
+      const x2 = centerX + outerRadius * Math.cos(startAngle);
+      const y2 = centerY + outerRadius * Math.sin(startAngle);
+      const x3 = centerX + outerRadius * Math.cos(endAngle);
+      const y3 = centerY + outerRadius * Math.sin(endAngle);
+      const x4 = centerX + innerRadius * Math.cos(endAngle);
+      const y4 = centerY + innerRadius * Math.sin(endAngle);
 
       const bgPath = `M ${x1} ${y1} L ${x2} ${y2} A ${outerRadius} ${outerRadius} 0 0 1 ${x3} ${y3} L ${x4} ${y4} A ${innerRadius} ${innerRadius} 0 0 0 ${x1} ${y1}`;
 
       // Value segment (filled)
       const valueOuterRadius = innerRadius + (outerRadius - innerRadius) * value;
-      const vx1 = 150 + innerRadius * Math.cos(startAngle);
-      const vy1 = 150 + innerRadius * Math.sin(startAngle);
-      const vx2 = 150 + valueOuterRadius * Math.cos(startAngle);
-      const vy2 = 150 + valueOuterRadius * Math.sin(startAngle);
-      const vx3 = 150 + valueOuterRadius * Math.cos(endAngle);
-      const vy3 = 150 + valueOuterRadius * Math.sin(endAngle);
-      const vx4 = 150 + innerRadius * Math.cos(endAngle);
-      const vy4 = 150 + innerRadius * Math.sin(endAngle);
+      const vx1 = centerX + innerRadius * Math.cos(startAngle);
+      const vy1 = centerY + innerRadius * Math.sin(startAngle);
+      const vx2 = centerX + valueOuterRadius * Math.cos(startAngle);
+      const vy2 = centerY + valueOuterRadius * Math.sin(startAngle);
+      const vx3 = centerX + valueOuterRadius * Math.cos(endAngle);
+      const vy3 = centerY + valueOuterRadius * Math.sin(endAngle);
+      const vx4 = centerX + innerRadius * Math.cos(endAngle);
+      const vy4 = centerY + innerRadius * Math.sin(endAngle);
 
       const valuePath = `M ${vx1} ${vy1} L ${vx2} ${vy2} A ${valueOuterRadius} ${valueOuterRadius} 0 0 1 ${vx3} ${vy3} L ${vx4} ${vy4} A ${innerRadius} ${innerRadius} 0 0 0 ${vx1} ${vy1}`;
 
       // Label position
       const midAngle = (startAngle + endAngle) / 2;
-      const labelRadius = outerRadius + 30;
-      const labelX = 150 + labelRadius * Math.cos(midAngle);
-      const labelY = 150 + labelRadius * Math.sin(midAngle);
+      const labelRadius = outerRadius + 35;
+      const labelX = centerX + labelRadius * Math.cos(midAngle);
+      const labelY = centerY + labelRadius * Math.sin(midAngle);
 
       // Number position
-      const numberRadius = outerRadius + 15;
-      const numberX = 150 + numberRadius * Math.cos(midAngle);
-      const numberY = 150 + numberRadius * Math.sin(midAngle);
+      const numberRadius = outerRadius + 18;
+      const numberX = centerX + numberRadius * Math.cos(midAngle);
+      const numberY = centerY + numberRadius * Math.sin(midAngle);
 
       return (
         <g key={category.id}>
@@ -169,7 +172,7 @@ const WheelChart = () => {
             textAnchor="middle"
             dominantBaseline="middle"
             fill="#374151"
-            fontSize="12"
+            fontSize="14"
             fontWeight="500"
           >
             {category.icon} {category.name}
@@ -182,9 +185,9 @@ const WheelChart = () => {
   };
 
   return (
-    <div className="flex flex-col lg:flex-row gap-8 items-center justify-center p-8 min-h-screen bg-gray-50">
+    <div className="flex flex-col xl:flex-row gap-8 items-center justify-center p-8 min-h-screen bg-gray-50">
       {/* Wheel Section */}
-      <div className="w-full max-w-md">
+      <div className="w-full max-w-2xl">
         <div ref={chartRef} className="bg-white rounded-2xl shadow-xl p-8">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-2xl font-bold text-gray-800">Wheel of Life</h2>
@@ -207,16 +210,16 @@ const WheelChart = () => {
           </div>
 
           {/* SVG Wheel */}
-          <svg viewBox="0 0 300 300" className="w-full aspect-square">
+          <svg viewBox="0 0 400 400" className="w-full aspect-square">
             {/* Wheel segments */}
             {renderWheel()}
             {/* Center circle */}
-            <circle cx="150" cy="150" r="50" fill="white" stroke="#e5e7eb" strokeWidth="2" />
+            <circle cx="200" cy="200" r="60" fill="white" stroke="#e5e7eb" strokeWidth="2" />
             {/* Average score */}
-            <text x="150" y="138" textAnchor="middle" fill="#374151" fontSize="12" fontWeight="500">
+            <text x="200" y="192" textAnchor="middle" fill="#374151" fontSize="14" fontWeight="500">
               Điểm TB
             </text>
-            <text x="150" y="162" textAnchor="middle" fill="#ef4444" fontSize="20" fontWeight="bold">
+            <text x="200" y="215" textAnchor="middle" fill="#ef4444" fontSize="24" fontWeight="bold">
               {averageScore}
             </text>
           </svg>
@@ -224,7 +227,7 @@ const WheelChart = () => {
       </div>
 
       {/* Controls Section */}
-      <div className="w-full max-w-md">
+      <div className="w-full max-w-2xl">
         <div className="bg-white rounded-2xl shadow-xl p-6">
           <h3 className="text-xl font-bold text-gray-800 mb-6">
             Điều chỉnh giá trị
