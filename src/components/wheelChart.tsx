@@ -24,7 +24,13 @@ const COLORS = [
 
 const DEFAULT_CATEGORIES: Category[] = [
   { id: "1", name: "Sức khỏe", icon: "❤️", value: 7, color: COLORS[0] },
-  { id: "2", name: "Phát triển bản thân", icon: "🧠", value: 5, color: COLORS[1] },
+  {
+    id: "2",
+    name: "Phát triển bản thân",
+    icon: "🧠",
+    value: 5,
+    color: COLORS[1],
+  },
   { id: "3", name: "Mối quan hệ", icon: "👥", value: 6, color: COLORS[2] },
   { id: "4", name: "Tài chính", icon: "💰", value: 5, color: COLORS[3] },
   { id: "5", name: "Sự nghiệp", icon: "💼", value: 5, color: COLORS[4] },
@@ -123,7 +129,8 @@ const WheelChart = () => {
       const bgPath = `M ${x1} ${y1} L ${x2} ${y2} A ${outerRadius} ${outerRadius} 0 0 1 ${x3} ${y3} L ${x4} ${y4} A ${innerRadius} ${innerRadius} 0 0 0 ${x1} ${y1}`;
 
       // Value segment (filled)
-      const valueOuterRadius = innerRadius + (outerRadius - innerRadius) * value;
+      const valueOuterRadius =
+        innerRadius + (outerRadius - innerRadius) * value;
       const vx1 = centerX + innerRadius * Math.cos(startAngle);
       const vy1 = centerY + innerRadius * Math.sin(startAngle);
       const vx2 = centerX + valueOuterRadius * Math.cos(startAngle);
@@ -185,10 +192,13 @@ const WheelChart = () => {
   };
 
   return (
-    <div className="flex flex-col xl:flex-row gap-8 items-center justify-center p-8 min-h-screen bg-gray-50">
+    <div className="flex flex-col xl:flex-row gap-8 items-stretch justify-center p-8 min-h-screen bg-gray-50">
       {/* Wheel Section */}
-      <div className="w-full max-w-2xl">
-        <div ref={chartRef} className="bg-white rounded-2xl shadow-xl p-8">
+      <div className="w-full xl:w-1/2">
+        <div
+          ref={chartRef}
+          className="bg-white rounded-2xl shadow-xl p-8 h-full flex flex-col items-center justify-center"
+        >
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-2xl font-bold text-gray-800">Wheel of Life</h2>
             <div className="flex gap-2">
@@ -214,12 +224,33 @@ const WheelChart = () => {
             {/* Wheel segments */}
             {renderWheel()}
             {/* Center circle */}
-            <circle cx="200" cy="200" r="60" fill="white" stroke="#e5e7eb" strokeWidth="2" />
+            <circle
+              cx="200"
+              cy="200"
+              r="60"
+              fill="white"
+              stroke="#e5e7eb"
+              strokeWidth="2"
+            />
             {/* Average score */}
-            <text x="200" y="192" textAnchor="middle" fill="#374151" fontSize="14" fontWeight="500">
+            <text
+              x="200"
+              y="192"
+              textAnchor="middle"
+              fill="#374151"
+              fontSize="14"
+              fontWeight="500"
+            >
               Điểm TB
             </text>
-            <text x="200" y="215" textAnchor="middle" fill="#ef4444" fontSize="24" fontWeight="bold">
+            <text
+              x="200"
+              y="215"
+              textAnchor="middle"
+              fill="#ef4444"
+              fontSize="24"
+              fontWeight="bold"
+            >
               {averageScore}
             </text>
           </svg>
@@ -227,17 +258,17 @@ const WheelChart = () => {
       </div>
 
       {/* Controls Section */}
-      <div className="w-full max-w-2xl">
-        <div className="bg-white rounded-2xl shadow-xl p-6">
+      <div className="w-full xl:w-1/2">
+        <div className="bg-white rounded-2xl shadow-xl p-6 h-full">
           <h3 className="text-xl font-bold text-gray-800 mb-6">
             Điều chỉnh giá trị
           </h3>
 
-          <div className="space-y-4 max-h-[500px] overflow-y-auto pr-2">
+          <div className="space-y-4 pr-2">
             {categories.map((category, index) => (
               <div
                 key={category.id}
-                className="bg-gray-50 rounded-xl p-4 space-y-3"
+                className="bg-gray-50 rounded-xl p-2 space-y-3"
               >
                 <div className="flex items-center gap-3">
                   {/* Number circle */}
