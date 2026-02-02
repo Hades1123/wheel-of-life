@@ -9,6 +9,7 @@ interface Category {
   icon: string;
   value: number;
   color: string;
+  labelOffset?: { x?: number; y?: number };
 }
 
 const COLORS = [
@@ -30,6 +31,7 @@ const DEFAULT_CATEGORIES: Category[] = [
     icon: "🧠",
     value: 5,
     color: COLORS[1],
+    labelOffset: { x: 10, y: -20 },
   },
   { id: "3", name: "Mối quan hệ", icon: "👥", value: 6, color: COLORS[2] },
   { id: "4", name: "Tài chính", icon: "💰", value: 5, color: COLORS[3] },
@@ -145,8 +147,14 @@ const WheelChart = () => {
       // Label position
       const midAngle = (startAngle + endAngle) / 2;
       const labelRadius = outerRadius + 35;
-      const labelX = centerX + labelRadius * Math.cos(midAngle);
-      const labelY = centerY + labelRadius * Math.sin(midAngle);
+      let labelX = centerX + labelRadius * Math.cos(midAngle);
+      let labelY = centerY + labelRadius * Math.sin(midAngle);
+
+      // Apply custom offset if exists
+      if (category.labelOffset) {
+        labelX += category.labelOffset.x || 0;
+        labelY += category.labelOffset.y || 0;
+      }
 
       // Number position
       const numberRadius = outerRadius + 18;
@@ -179,7 +187,7 @@ const WheelChart = () => {
             textAnchor="middle"
             dominantBaseline="middle"
             fill="#374151"
-            fontSize="14"
+            fontSize="11"
             fontWeight="500"
           >
             {category.icon} {category.name}
